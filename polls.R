@@ -17,7 +17,7 @@ pollplot$Date <- as.Date(pollplot$Date,"%Y%B%d")
 head(pollplot)
 
 a <- ggplot(data=pollplot,aes(x=Date,y=Poll,colour=Party)) + 
-  stat_smooth(formula = y ~ poly(x,3), method="lm", size=1,aes(weight=Date)) + 
+  stat_smooth(formula = y ~ poly(x,3), method="glm", size=1,aes(weight=Date)) + 
   scale_y_continuous(name="Percent of the Vote",breaks=seq(0,60,5)) +
   scale_color_manual(values=c("brown","blue", "black")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.6)) +
