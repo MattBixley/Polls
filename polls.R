@@ -26,3 +26,6 @@ a <- ggplot(data=pollplot,aes(x=Date,y=Poll,colour=Party)) +
       subtitle = "Guessing the Election",
       caption = "Who does Winston 1st Choose")
 a + theme_xkcd()
+
+
+mm <- glm(Poll~Date,data=pollplot,family=binomial)
