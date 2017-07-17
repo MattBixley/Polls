@@ -183,3 +183,6 @@ theme_new <- function(base_size = 12, base_family = "Helvetica"){
     }
 ```   
 
+
+
+http://ellisp.github.io/
