@@ -1,0 +1,38 @@
+---
+title: "ggThemeAssist"
+author: "Matt Bixley"
+date: "17 July 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## ggThemeAssist
+
+[ggThemeAssist](https://github.com/calligross/ggthemeassist)
+
+```{r, eval=F}
+if (!requireNamespace("devtools", quietly = TRUE))
+  install.packages("devtools")
+
+devtools::install_github("calligross/ggthemeassist")
+```
+
+```{r}
+library(ggplot2)
+data(mtcars)
+
+gg <- ggplot(mtcars,aes(x=hp, y=mpg, colour=factor(cyl))) + geom_point()
+gg
+
+```
+
+```{r, eval=T}
+library(ggThemeAssist)
+ggThemeAssistGadget(gg)
+
+```
+
+http://www.ggplot2-exts.org/gallery/

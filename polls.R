@@ -29,3 +29,24 @@ a + theme_xkcd()
 
 mm <- glm(Poll~Date,data=pollplot,family=binomial)
 
+## with winston
+pollW <- poll %>% select(Order, Year, Month, National, Labour, Green, NZFirst) %>% 
+  mutate(GLW=Labour + Green + NZFirst, NW = National + NZFirst, Date=paste0(Year,Month,"15")) %>% 
+  select(Order,Date,NW,GLW) %>% gather(key=Order,Date) 
+
+colnames(pollW) <- c("Order","Date","Party","Poll")
+
+pollW$Date <- as.Date(pollW$Date,"%Y%B%d")
+head(pollW)
+
+w <- ggplot(data=pollW,aes(x=Date,y=Poll,colour=Party)) + 
+  stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date)) + 
+  scale_y_continuous(name="Percent of the Vote",breaks=seq(0,60,5)) +
+  scale_color_manual(values=c("brown","blue")) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 0.6)) +
+  geom_point(position = position_jitter(width=0.1, height=0.1)) +
+  labs( x = "Polling Date",title ="Going to The Polls",
+        subtitle = "Guessing the Election",
+        caption = "Who does Winston 1st Choose")
+w + theme_xkcd()
+
