@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=T}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 library(ggplot2)
 library(ggthemes)
 library(scales)
@@ -98,7 +99,31 @@ devtools::install_github("calligross/ggthemeassist")
 https://en.wikipedia.org/wiki/Opinion_polling_for_the_New_Zealand_general_election,_2017
 
 
-```{r, eval=F,echo=T}
+```{r, eval=T,echo=T}
+poll <- read.table(file="polls.csv",header=T,sep=",")
+tail(poll)
+
+### make the plot data to long table first
+pollplot <- poll %>% select(Order, Year, Month, National, Labour, Green, NZFirst) %>% 
+  mutate(GL=Labour + Green, Date=paste0(Year,Month,"15")) %>% select(Order,Date,National,GL,NZFirst) %>% gather(key=Order,Date) 
+
+colnames(pollplot) <- c("Order","Date","Party","Poll")
+
+pollplot$Date <- as.Date(pollplot$Date,"%Y%B%d")
+head(pollplot)
+
+pollW <- poll %>% select(Order, Year, Month, National, Labour, Green, NZFirst) %>% 
+  mutate(GLW=Labour + Green + NZFirst, NW = National + NZFirst, Date=paste0(Year,Month,"15")) %>% 
+  select(Order,Date,NW,GLW) %>% gather(key=Order,Date) 
+
+colnames(pollW) <- c("Order","Date","Party","Poll")
+
+pollW$Date <- as.Date(pollW$Date,"%Y%B%d")
+head(pollW)
+```
+
+```{r, eval=T,echo=T}
+
 ww <- ggplot(data=pollW,aes(x=Date,y=Poll,colour=Party)) + 
   stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date)) + 
   scale_color_manual(values=c("brown","blue")) +
@@ -123,7 +148,7 @@ ww + theme(plot.subtitle = element_text(size = 12),
 
 # Save a theme
 
-```{r}
+```{r, eval = F, echo =T}
 theme_new <- function(base_size = 12, base_family = "Helvetica"){
     theme_bw(base_size = base_size, base_family = base_family) %+replace%
     theme(
