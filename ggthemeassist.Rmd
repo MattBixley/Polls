@@ -93,6 +93,11 @@ if (!requireNamespace("devtools", quietly = TRUE))
 devtools::install_github("calligross/ggthemeassist")
 ```
 
+
+## Some Polling Data
+https://en.wikipedia.org/wiki/Opinion_polling_for_the_New_Zealand_general_election,_2017
+
+
 ```{r, eval=F,echo=T}
 ww <- ggplot(data=pollW,aes(x=Date,y=Poll,colour=Party)) + 
   stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date)) + 

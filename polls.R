@@ -70,3 +70,4 @@ ww + theme(plot.subtitle = element_text(size = 12),
     legend.direction = "horizontal") +labs(title = "The Polls", y = "Percent", 
     subtitle = "Winston will choose what Winston Chooses", 
     caption = "What could be worse? - The Trump")
+
