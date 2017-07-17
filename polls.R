@@ -36,7 +36,7 @@ a <- ggplot(data=pollplot,aes(x=Date,y=Poll,colour=Party)) +
   labs( x = "Polling Date",title ="Going to The Polls",
       subtitle = "Guessing the Election",
       caption = "Who does Winston 1st Choose")
-#a + theme_xkcd()
+a + theme_xkcd()
 a
 
 ## with winston
@@ -71,3 +71,20 @@ ww + theme(plot.subtitle = element_text(size = 12),
     subtitle = "Winston will choose what Winston Chooses", 
     caption = "What could be worse? - The Trump")
 
+theme_new <- function(base_size = 12, base_family = "Helvetica"){
+  theme_bw(base_size = base_size, base_family = base_family) %+replace%
+    theme(
+      line = element_line(colour="black"),
+      text = element_text(colour="black"),
+      axis.title = element_text(size = 14),
+      axis.text = element_text(colour="black", size=8),
+      strip.text = element_text(size=12),
+      legend.key=element_rect(colour=NA, fill =NA),
+      panel.grid = element_blank(),   
+      panel.border = element_rect(fill = NA, colour = "black", size=1),
+      panel.background = element_rect(fill = "white", colour = "black"), 
+      strip.background = element_rect(fill = NA)
+    )
+}
+
+ww + theme_set(theme_new())

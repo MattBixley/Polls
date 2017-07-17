@@ -2,20 +2,27 @@
 title: "ggplot - bits and pieces"
 author: "Matt Bixley"
 date: "17 July 2017"
-output: html_document
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+geometry: margin=1in
+fontsize: 12pt
+subtitle: Mucking around with ggplot == LEARNING
 ---
 
-```{r setup, include=T}
+```{r setup, include=F}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(ggplot2)
 library(ggthemes)
 library(scales)
 library(ggsci)
 library(xkcd)
+
+
 ```
 
-## Basic ggplot with cars
+# Basic ggplot with cars
 
 ```{r}
 data(mtcars)
@@ -129,7 +136,7 @@ ww <- ggplot(data=pollW,aes(x=Date,y=Poll,colour=Party)) +
   scale_color_manual(values=c("brown","blue")) +
   geom_point(position = position_jitter(width=0.1, height=0.1))
 
-ww
+#ww
 
 ww + theme(plot.subtitle = element_text(size = 12), 
     plot.caption = element_text(size = 12), 
@@ -146,7 +153,17 @@ ww + theme(plot.subtitle = element_text(size = 12),
     caption = "What could be worse? - The Trump")
 ```
 
-# Save a theme
+
+
+# But Wait
+
+There's More
+
+### Set and forget
+
+https://github.com/cttobin/ggthemr
+
+### Save a theme
 
 ```{r, eval = F, echo =T}
 theme_new <- function(base_size = 12, base_family = "Helvetica"){
@@ -166,5 +183,3 @@ theme_new <- function(base_size = 12, base_family = "Helvetica"){
     }
 ```   
 
-
-https://github.com/cttobin/ggthemr
