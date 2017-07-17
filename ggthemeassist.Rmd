@@ -105,6 +105,7 @@ devtools::install_github("calligross/ggthemeassist")
 ## Some Polling Data
 https://en.wikipedia.org/wiki/Opinion_polling_for_the_New_Zealand_general_election,_2017
 
+http://ellisp.github.io/
 
 ```{r, eval=T,echo=T}
 poll <- read.table(file="polls.csv",header=T,sep=",")
@@ -185,4 +186,3 @@ theme_new <- function(base_size = 12, base_family = "Helvetica"){
 
 
 
-http://ellisp.github.io/
