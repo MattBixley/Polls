@@ -3,6 +3,10 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 library(xkcd)
+library(ggthemes)
+library(scales)
+
+
 
 poll <- read.table(file="polls.csv",header=T,sep=",")
 tail(poll)
@@ -48,5 +52,13 @@ w <- ggplot(data=pollW,aes(x=Date,y=Poll,colour=Party)) +
   labs( x = "Polling Date",title ="Going to The Polls",
         subtitle = "Guessing the Election",
         caption = "Who does Winston 1st Choose")
-w + theme_xkcd()
 
+w + theme_economist() + scale_colour_economist() + scale_y_continuous(position = "right")
+w + theme_excel() + scale_colour_excel()
+w + theme_calc() + scale_color_calc()
+
+w + scale_color_fivethirtyeight("cyl") + theme_fivethirtyeight()
+w + theme_few() + scale_colour_few()
+w + theme_wsj() + scale_colour_wsj("colors6", "")
+w + theme_gdocs() + scale_color_gdocs()
+w + theme_tufte() 
