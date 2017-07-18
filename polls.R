@@ -51,7 +51,7 @@ w <- ggplot(data=pollW,aes(x=Date,y=Poll,colour=Party)) +
         caption = "Who does Winston 1st Choose")
 
 ww <- ggplot(data=pollW,aes(x=Date,y=Poll,colour=Party)) + 
-  stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date)) + 
+  stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date)) +
   scale_color_manual(values=c("brown","blue")) +
   geom_point(position = position_jitter(width=0.1, height=0.1))
 
@@ -71,20 +71,3 @@ ww + theme(plot.subtitle = element_text(size = 12),
     subtitle = "Winston will choose what Winston Chooses", 
     caption = "What could be worse? - The Trump")
 
-theme_new <- function(base_size = 12, base_family = "Helvetica"){
-  theme_bw(base_size = base_size, base_family = base_family) %+replace%
-    theme(
-      line = element_line(colour="black"),
-      text = element_text(colour="black"),
-      axis.title = element_text(size = 14),
-      axis.text = element_text(colour="black", size=8),
-      strip.text = element_text(size=12),
-      legend.key=element_rect(colour=NA, fill =NA),
-      panel.grid = element_blank(),   
-      panel.border = element_rect(fill = NA, colour = "black", size=1),
-      panel.background = element_rect(fill = "white", colour = "black"), 
-      strip.background = element_rect(fill = NA)
-    )
-}
-
-ww + theme_set(theme_new())
