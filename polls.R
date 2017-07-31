@@ -30,7 +30,7 @@ head(pollW)
 
 # GL + N + W
 a <- ggplot(data=pollplot,aes(x=Date,y=Poll,colour=Party)) + 
-  geom_point(position = position_jitter(width=10, height=0.1),aes(shape=Company,size=1.5),alpha=0.7) +
+  geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Company,size=1.5),alpha=0.7) +
   scale_shape_manual(values=c(18,17,15, 16, 1))+
   stat_smooth(formula = y ~ poly(x,5), method="glm", level = 0.99,size=1,aes(weight=Date)) + 
   scale_y_continuous(name="Percent of the Vote",breaks=seq(0,60,5)) +
