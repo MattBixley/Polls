@@ -30,7 +30,11 @@ Column {data-width=600}
 How the major parties are trending  
 
   
+<<<<<<< HEAD
 ```{r, fig.width=10,fig.height=8.9}
+=======
+```{r, fig.width=12,fig.height=9}
+>>>>>>> 8892d129fd01a6913f581a7103f719090a581f7d
 # GL + N + W
 a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% ggplot(.,aes(x=Date,y=Value,colour=Party)) + 
   geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Poll,size=1.5),alpha=0.7) +
@@ -53,7 +57,11 @@ Column {data-width=600}
 ### With Winston 
 What it looks like if we combine Winston 1st with both National and the Labour/Green Block
   
+<<<<<<< HEAD
 ```{r, fig.width=10,fig.height=8.9}
+=======
+```{r, fig.width=12,fig.height=9}
+>>>>>>> 8892d129fd01a6913f581a7103f719090a581f7d
 
 
 ## With Winston
