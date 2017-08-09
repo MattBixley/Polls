@@ -1,2 +1,2 @@
 # Polls
-Mucking around with ggplot2, xkcd and the election 
+Mucking around with ggplot2, ~~xkcd~~ dashboards and the election 

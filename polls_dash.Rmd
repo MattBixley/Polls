@@ -19,19 +19,18 @@ poll <- read.table(file="polls.csv",header=T,sep=",")
 pollplot <- poll  %>%   mutate(GL=Labour + Green, Date=ymd(paste(Year, Month, 15,sep = '-'))) %>% select(-Order,-Year,-Month) %>% select(Poll,Date, everything())%>%   gather(.,Date, Poll,  3:NCOL(.) )
 colnames(pollplot) <- c("Poll","Date","Party","Value")
 
-
-
-
-
 ```
 
-
-Poll Day
+Poll Day 
 ===================================================
+Column {data-width=600}
+-------------------------------------
+ 
+### Without Winston 
+How the major parties are trending  
+
   
-### Without winston 
-  
-```{r, fig.width=10}
+```{r, fig.width=12,fig.height=9}
 # GL + N + W
 a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% ggplot(.,aes(x=Date,y=Value,colour=Party)) + 
   geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Poll,size=1.5),alpha=0.7) +
@@ -48,15 +47,16 @@ a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>
 a 
 ```
 
------------------------------------------------
+Column {data-width=600}
+-------------------------------------
+
+### With Winston 
+What it looks like if we combine Winston 1st with both National and the Labour/Green Block
   
-### with winston
-  
-```{r, fig.width=10}
+```{r, fig.width=12,fig.height=9}
 
 
-
-## with winston
+## With Winston
 pollplot %>% filter(Party %in% c('National',"GL")) %>% left_join(., pollplot %>% filter(Party == "NZFirst"), by = c('Poll',"Date")) %>% mutate(Party = paste0(Party.x,"_" ,Party.y), Value = Value.x + Value.y) %>%  ggplot(data=. ,aes(x=Date,y=Value,colour=Party)) + 
   geom_hline(aes(yintercept=50), colour="black", linetype="dashed",size=1.5)+
   stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date),level = 0.99) + 
@@ -74,12 +74,37 @@ theme(axis.text.x = element_text(angle = 45, hjust = 0.6)) +
 ```
 
 
-All Parties {data-orientation=rows}
+All Parties
 ==================================================
   
-  Row {data-height=600}
+Column {data-width=400}
 -------------------------------------
+
+
+### The Changing Vote
+
+```{r, include = FALSE}
+library(animation)
+
+for (date in unique(pollplot$Date) ) {
+p <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% filter(Date == date) %>% group_by(Party) %>% summarise(meanValue = mean(Value, na.rm=TRUE)) %>% ggplot(.,aes(x = Party, y=meanValue,fill=Party)) + geom_bar( stat = "identity") + scale_fill_manual(values=c("green","red","blue", "black")) + ylim(c(0,55)) + ggtitle(as_date(date)) + 
+  theme(plot.title = element_text(size = 40, face = "bold"))
+  plot(p)
+  ani.record() # record the current frame
+}
+
+oopts = ani.options(interval = 1.0)
+saveGIF(expr = ani.replay(), movie.name = "record_plot.gif" )
+
+```
+
+![](record_plot.gif)
   
+
+
+Column {data-width=600}
+-------------------------------------
+
 ### Major parties
   
 ```{r, fig.width = 10}
@@ -99,28 +124,6 @@ a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>
         axis.title = element_text(size = 15), plot.title = element_text(size = 20)) + geom_hline(yintercept = 50) + theme_bw()
 a 
 ```
-
-### Bar
-
-```{r, include = FALSE}
-library(animation)
-
-for (date in unique(pollplot$Date) ) {
-  p<- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% filter(Date == date) %>% group_by(Party) %>% summarise(meanValue = mean(Value, na.rm=TRUE)) %>% ggplot(.,aes(x = Party, y=meanValue,fill=Party)) + geom_bar( stat = "identity") + scale_fill_manual(values=c("green","red","blue", "black")) + ylim(c(0,55)) + ggtitle(as_date(date))
-  plot(p)
-  ani.record() # record the current frame
-}
-
-oopts = ani.options(interval = 1.0)
-saveGIF(expr = ani.replay(), movie.name = "record_plot.gif" )
-
-```
-
-![plot](record_plot.gif)
-
-
-Row {data-height=600}
--------------------------------------
   
 ### Minor parties
   
