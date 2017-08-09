@@ -87,6 +87,7 @@ All Parties {data-orientation=rows}
 
 
 
+
 a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% group_by(Date,Party) %>% summarise(meanValue = mean(Value, na.rm=TRUE)) %>% ggplot(.,aes(x=Date,y=meanValue,colour=Party)) + 
   geom_line(alpha=0.7) +
   scale_shape_manual(values=c(18,17,15, 16, 1)) +
@@ -99,6 +100,25 @@ a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>
         axis.title = element_text(size = 15), plot.title = element_text(size = 20)) + geom_hline(yintercept = 50) + theme_bw()
 a 
 ```
+
+### Bar
+
+```{r, include = FALSE}
+library(animation)
+
+for (date in unique(pollplot$Date) ) {
+  p<- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% filter(Date == date) %>% group_by(Party) %>% summarise(meanValue = mean(Value, na.rm=TRUE)) %>% ggplot(.,aes(x = Party, y=meanValue,fill=Party)) + geom_bar( stat = "identity") + scale_fill_manual(values=c("green","red","blue", "black")) + ylim(c(0,55)) + ggtitle(as_date(date))
+  plot(p)
+  ani.record() # record the current frame
+}
+
+oopts = ani.options(interval = 1.0)
+saveGIF(expr = ani.replay(), movie.name = "record_plot.gif" )
+
+```
+
+![plot](record_plot.gif)
+
 
 Row {data-height=600}
 -------------------------------------
