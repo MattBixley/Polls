@@ -31,12 +31,12 @@ How the major parties are trending
 
   
 
-```{r, fig.width=10,fig.height=8.9}
+```{r, fig.width=10,fig.height=10}
 
 # GL + N + W
 a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% ggplot(.,aes(x=Date,y=Value,colour=Party)) + 
   geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Poll,size=1.5),alpha=0.7) +
-  scale_shape_manual(values=c(18,17,15, 16, 1)) +
+  scale_shape_manual(values=c(18,11,15, 16, 1,17)) +
   stat_smooth(formula = y ~ poly(x,5), method="glm", level = 0.99,size=1,aes(weight=Date)) + 
   scale_y_continuous(name="Percent of the Vote",breaks=seq(0,60,5)) +
   scale_color_manual(values=c("green","red","blue", "black")) +
@@ -55,14 +55,14 @@ Column {data-width=600}
 ### With Winston 
 What it looks like if we combine Winston 1st with both National and the Labour/Green Block
   
-```{r, fig.width=10,fig.height=8.9}
+```{r, fig.width=10,fig.height=10}
 
 ## With Winston
 pollplot %>% filter(Party %in% c('National',"GL")) %>% left_join(., pollplot %>% filter(Party == "NZFirst"), by = c('Poll',"Date")) %>% mutate(Party = paste0(Party.x,"_" ,Party.y), Value = Value.x + Value.y) %>%  ggplot(data=. ,aes(x=Date,y=Value,colour=Party)) + 
   geom_hline(aes(yintercept=50), colour="black", linetype="dashed",size=1.5)+
   stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date),level = 0.99) + 
   geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Poll,size=1.5),alpha=0.7) +
-  scale_shape_manual(values=c(18,17,15, 16, 1)) +
+  scale_shape_manual(values=c(18,11,15, 16, 1,17)) +
   scale_y_continuous(name="Percent of the Vote",breaks=seq(0,60,5)) +
   scale_color_manual(values=c("brown","blue")) +
 theme(axis.text.x = element_text(angle = 45, hjust = 0.6)) +
@@ -115,7 +115,7 @@ Column {data-width=600}
 
 a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% group_by(Date,Party) %>% summarise(meanValue = mean(Value, na.rm=TRUE)) %>% ggplot(.,aes(x=Date,y=meanValue,colour=Party)) + 
   geom_line(alpha=0.7,size=1.5) +
-  scale_shape_manual(values=c(18,17,15, 16, 1)) +
+  scale_shape_manual(values=c(18,11,15, 16, 1,17)) +
   #stat_smooth(formula = y ~ poly(x,5), method="glm", level = 0.99,size=1,aes(weight=Date)) + 
   scale_y_continuous(name="Mean Poll Percent of the Vote",breaks=seq(0,60,5)) +
   scale_color_manual(values=c("green","red","blue", "black")) +
@@ -131,7 +131,7 @@ a
 ```{r, fig.width=10}
 a <- pollplot %>% filter(!Party %in% c("National","Green","Labour","NZFirst","GL")) %>% group_by(Date,Party) %>% summarise(meanValue = mean(Value, na.rm=TRUE)) %>% ggplot(.,aes(x=Date,y=meanValue,colour=Party)) +
   geom_line(alpha=0.7,size=1.5) +
-  scale_shape_manual(values=c(18,17,15, 16, 1)) +
+  scale_shape_manual(values=c(18,11,15, 16, 1,17)) +
   scale_y_continuous(name="Mean Poll Percent of the Vote",breaks=seq(0,60,5)) +
   scale_color_manual(values=c("yellow","lightblue","blue", "black","red","purple")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.6)) +
