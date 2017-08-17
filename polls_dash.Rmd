@@ -37,7 +37,7 @@ How the major parties are trending
 a <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% ggplot(.,aes(x=Date,y=Value,colour=Party)) + 
   geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Poll,size=1.5),alpha=0.7) +
   scale_shape_manual(values=c(18,11,15, 16, 1,17)) +
-  stat_smooth(formula = y ~ poly(x,5), method="glm", level = 0.99,size=1,aes(weight=Date)) + 
+  stat_smooth(formula = y ~ poly(x,3), method="glm", level = 0.99,size=1,aes(weight=Date)) + 
   scale_y_continuous(name="Percent of the Vote",breaks=seq(0,60,5)) +
   scale_color_manual(values=c("green","red","blue", "black")) +
   theme(axis.text.x = element_text(angle = 45, hjust = 0.6)) +
@@ -59,9 +59,9 @@ What it looks like if we combine Winston 1st with both National and the Labour/G
 
 ## With Winston
 pollplot %>% filter(Party %in% c('National',"GL")) %>% left_join(., pollplot %>% filter(Party == "NZFirst"), by = c('Poll',"Date")) %>% mutate(Party = paste0(Party.x,"_" ,Party.y), Value = Value.x + Value.y) %>%  ggplot(data=. ,aes(x=Date,y=Value,colour=Party)) + 
-  scale_y_continuous(name="Percent of the Vote",breaks=seq(0,60,5)) +
+  scale_y_continuous(name="Percent of the Vote",breaks=seq(0,65,5)) +
   geom_hline(aes(yintercept=50), colour="black", linetype="dashed",size=1.5)+
-  stat_smooth(formula = y ~ poly(x,5), method="glm", size=1,aes(weight=Date),level = 0.99) + 
+  stat_smooth(formula = y ~ poly(x,3), method="glm", size=1,aes(weight=Date),level = 0.99) + 
   geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Poll,size=1.5),alpha=0.7) +
   scale_shape_manual(values=c(18,11,15, 16, 1,17)) +
   scale_color_manual(values=c("brown","blue")) +
