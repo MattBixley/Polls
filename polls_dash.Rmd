@@ -96,6 +96,15 @@ p <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>
   ani.record() # record the current frame
 }
 
+date <- pollplot$Date[nrow(pollplot)]
+p <- pollplot %>% filter(Party %in% c("National","Green","Labour","NZFirst")) %>% filter(Date == date) %>% group_by(Party) %>% summarise(meanValue = mean(Value, na.rm=TRUE)) %>% ggplot(.,aes(x = Party, y=meanValue,fill=Party)) + geom_bar( stat = "identity") + scale_fill_manual(values=c("green","red","blue", "black")) + ylim(c(0,55)) + ggtitle(as_date(date)) + 
+  theme(plot.title = element_text(size = 40, face = "bold"))
+
+for(i in 1:5){  plot(p)
+  ani.record() # record the current frame
+  }
+
+
 oopts = ani.options(interval = 1.0)
 saveGIF(expr = ani.replay(), movie.name = "record_plot.gif" )
 
