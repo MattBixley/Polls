@@ -1,4 +1,13 @@
 library(manipulate)
+library(tidyverse)
+library(lubridate)
+
+poll <- read.table(file="polls.csv",header=T,sep=",")
+
+### make the plot data to long table first
+pollplot <- poll  %>%   mutate(GL=Labour + Green, Date=ymd(paste(Year, Month, 15,sep = '-'))) %>% select(-Order,-Year,-Month) %>% select(Poll,Date, everything())%>%   gather(.,Date, Poll,  3:NCOL(.) )
+colnames(pollplot) <- c("Poll","Date","Party","Value")
+
 
 ### use the manipulate librray to control the span in loess
 
