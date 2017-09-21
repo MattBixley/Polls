@@ -69,7 +69,7 @@ pollplot %>% filter(Party %in% c('NACT',"GL")) %>% left_join(., pollplot %>% fil
   scale_y_continuous(name="Percent of the Vote",breaks=seq(0,65,5)) +
   geom_hline(aes(yintercept=49), colour="black", linetype="dashed",size=1.5)+
   #stat_smooth(formula = y ~ poly(x,3), method="glm", size=1,aes(weight=Date),level = 0.99) + 
-  geom_smooth(span = 0.2, size=1,level = 0.99) + 
+  geom_smooth(span = 0.3, size=1,level = 0.99) + 
   geom_point(position = position_jitter(width=5, height=0.0),aes(shape=Poll,size=1.5),alpha=0.5) +
   scale_shape_manual(values=shape) +
   scale_color_manual(values=c("brown","blue")) +
