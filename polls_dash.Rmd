@@ -8,10 +8,26 @@ source_code: embed
 ---
   
 ```{r setup, include=FALSE}
-library(tidyverse)
-library(lubridate)
-library(flexdashboard)
-library(manipulate)
+# get required packages
+check_package <- function(x){
+  for( i in x ){
+    #  require returns TRUE invisibly if it was able to load package
+    if( ! require( i , character.only = TRUE ) ){
+      #  If package was not able to be loaded then re-install
+      install.packages( i , dependencies = TRUE )
+      #  Load package after installing
+      require( i , character.only = TRUE )
+    }
+  }
+}
+
+check_package(c("tidyverse", "lubridate", "flexdashboard", "manipulate"))
+
+
+# library(tidyverse)
+# library(lubridate)
+# library(flexdashboard)
+# library(manipulate)
 poll <- read.table(file="polls.csv",header=T,sep=",")
 
 shape <- c(18,11,15,3,1,17,16) # 7 poll types
