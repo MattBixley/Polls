@@ -10,3 +10,7 @@ check_package <- function(x){
     }
   }
 }
+
+# usage
+# check_package(c("package1", "package2"))
+
