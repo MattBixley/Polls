@@ -33,16 +33,12 @@ colnames(polls)[1:3] <- c("Date", "Poll", "Size")
     
 
 # several notes have been added remove those rows by forcing a party results to numeric which returns NA for the comments
-p <- polls %>% 
+p2020 <- polls %>% 
   filter(!is.na(as.numeric(polls$NAT))) %>% 
   # make the polling data numeric
   mutate_at(.,party, ~as.numeric(.x)) %>% 
 
   select(-"Lead")
-
-
-str(polls)
-
 
 ```
 
@@ -61,21 +57,12 @@ party <- cols[-c(1:2)]
 colnames(polls)[1:2] <- c("Poll", "Date")
 
 # several notes have been added remove those rows by forcing a party results to numeric which returns NA for the comments
-p <- polls %>% filter(!is.na(as.numeric(polls[,party[1]]))) %>% 
+p2017 <- polls %>% filter(!is.na(as.numeric(polls[,party[1]]))) %>% 
   # make the polling data numeric
-  mutate_at(.,party, ~as.numeric(.x))
-
+  mutate_at(.,party, ~as.numeric(.x)) %>% 
   # remove notes [1]
-  str_replace_all(p,"[0-9]", "") %>% 
-  str_replace_all(d$Poll,"\\[", "") %>% 
-  str_replace_all(p$Poll,"\\]", "") %>% 
-  str_replace_all(p$Poll,"\\ ", "")
+  mutate(Poll = str_trunc(.$Poll, width = 10))
 
-
-
-str(polls)
-
-description_data<-gsub("\n","",description_data)
 ```
 
 
