@@ -15,7 +15,8 @@ check_package(c("tidyverse", "rvest", "xml2", "stringr"))
 # web scrape
 collect the polls.csv data via code rather than a manual colation as previoulsy done from [wiki](https://en.wikipedia.org/wiki/Opinion_polling_for_the_2020_New_Zealand_general_election) table 3 the individual polls
 
-
+## tidying the data
+some good regular expression examples [here](https://datascience-enthusiast.com/R/webscraping.html)
 
 ```{r 2020}
 url <- "https://en.wikipedia.org/wiki/Opinion_polling_for_the_2020_New_Zealand_general_election"
@@ -37,9 +38,12 @@ p2020 <- polls %>%
   filter(!is.na(as.numeric(polls$NAT))) %>% 
   # make the polling data numeric
   mutate_at(.,party, ~as.numeric(.x)) %>% 
+  # remove comma from size
+  mutate(Size = as.numeric(str_replace_all(.$Size,",",""))) %>% 
 
   select(-"Lead")
 
+str(p2020)
 ```
 
 
@@ -57,20 +61,18 @@ party <- cols[-c(1:2)]
 colnames(polls)[1:2] <- c("Poll", "Date")
 
 # several notes have been added remove those rows by forcing a party results to numeric which returns NA for the comments
----
-title: "Untitled"
-author: ""
-date: "`r format(Sys.Date())`"
-output: html_document
---- 
 
-```{r}
-
-``` <- polls %>% filter(!is.na(as.numeric(polls[,party[1]]))) %>% 
+p2017 <- polls %>% filter(!is.na(as.numeric(polls[,party[1]]))) %>% 
   # make the polling data numeric
   mutate_at(.,party, ~as.numeric(.x)) %>% 
   # remove notes [1]
-  mutate(Poll = str_trunc(.$Poll, width = 10))
+  mutate(Poll = str_replace_all(.$Poll,"\\[(.*)","")) %>% 
+  # date tidy
+  mutate(year = str_replace_all(.$Date," (.*)","")) %>%
+  mutate(day = str_replace_all(.$Date," (.*)","")) %>% 
+  mutate(day = str_replace_all(.$day,"–(.*)",""))
+
+p2017
 
 ```
 
