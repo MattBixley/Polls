@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source("code/helper_functions.R")
-check_package(c("tidyverse", "rvest", "xml2", "stringr"))
+check_package(c("tidyverse", "rvest", "xml2", "stringr","purrr"))
 
 ```
 
@@ -68,11 +68,13 @@ p2017 <- polls %>% filter(!is.na(as.numeric(polls[,party[1]]))) %>%
   # remove notes [1]
   mutate(Poll = str_replace_all(.$Poll,"\\[(.*)","")) %>% 
   # date tidy
-  mutate(year = str_replace_all(.$Date," (.*)","")) %>%
   mutate(day = str_replace_all(.$Date," (.*)","")) %>% 
-  mutate(day = str_replace_all(.$day,"–(.*)",""))
+  mutate(day = str_replace_all(.$day,"–(.*)","")) %>%
+  
+  mutate(year = get_last(.$Date, 1)) %>% 
+  mutate(month = get_last(.$Date, 2))
 
-p2017
+p2017       
 
 ```
 
