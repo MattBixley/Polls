@@ -71,10 +71,15 @@ p2017 <- polls %>% filter(!is.na(as.numeric(polls[,party[1]]))) %>%
   mutate(day = str_replace_all(.$Date," (.*)","")) %>% 
   mutate(day = str_replace_all(.$day,"–(.*)","")) %>%
   
-  mutate(year = get_last(.$Date, 1)) %>% 
-  mutate(month = get_last(.$Date, 2))
+  # see the helper function get_last
+  # mutate(year = map(.$Date, get_last, n = 1)) %>% 
+  # mutate(month = map(.$Date, get_last, n = 2))
 
-p2017       
+  # see the helper function get_last
+  mutate(year = str_extract(.$Date, "([0-9]{4})")) %>% 
+  mutate(month = str_extract(.$Date, "([A-z]{3})"))
+
+p2017
 
 ```
 
